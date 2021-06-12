@@ -1,3 +1,4 @@
+import pandas as pd
 from time import sleep
 from selenium.webdriver.common.by import By
 from selenium import webdriver
@@ -7,9 +8,11 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 import socket
 
-message_text='Boa Tarde, Tudo Bem ' # message
+
+contatos_df = pd.read_excel(r'D:\\Seniorbot2.0\\contato+mensagem.xlsx')
+message_text='Bom Dia, Tudo Bem. Me chamo *Matheus* temos uma *informação interna do INSS* para passar para você. Podemos passar pelo WhatsApp?' # message
 no_of_message=1 # no. of time 
-moblie_no_list=[5511989412392,5511989855048,5511991211855,5511991432484,5511991560689,5511991638744,5511991740009,5511991835167,5511991929366,5511992397344,5511993021173,5511995090549,5511995101222,5511995198180,5511996188690,5511996221230,5511996306793,5511996681616,5511997235866,5511997517286,5511998994560,5511999319736,5511999330468,5511999415031,5512981260971,5512981815742,5512982338633,5512991029611] # list of phone number 
+moblie_no_list=[]
 
 def element_presence(by,xpath,time):
     element_present = EC.presence_of_element_located((By.XPATH, xpath))
@@ -25,7 +28,7 @@ def is_connected():
         is_connected()
 driver = webdriver.Chrome(executable_path="chromedriver.exe")
 driver.get("http://web.whatsapp.com")
-sleep(10) #wait time to scan the code in second
+sleep(8) #wait time to scan the code in second
 
 def send_whatsapp_msg(phone_no,text):
     driver.get("https://web.whatsapp.com/send?phone={}&source=&data=#".format(phone_no))
@@ -49,5 +52,5 @@ for moblie_no in moblie_no_list:
         send_whatsapp_msg(moblie_no,message_text)
 
     except Exception as e:
-        sleep(10)
+        sleep(5)
         is_connected()
